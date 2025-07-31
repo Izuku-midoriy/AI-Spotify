@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood-Based Playlist Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Background particles -->
+  <div class="bg-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- Floating music notes -->
+  <div class="floating-notes">
+    <div class="note">🎵</div>
+    <div class="note">🎶</div>
+    <div class="note">🎼</div>
+    <div class="note">🎤</div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="nav-logo">
+        <i class="fas fa-music"></i>
+        <span>MoodTunes</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="features.html">Features</a>
+        <a href="discover.html">Discover</a>
+        <a href="login.html">Login</a>
+      </div>
+      <div class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="main-container">
+    <!-- Hero section -->
+    <div class="hero-section">
+      <h1 class="hero-title">🎶 Mood Playlist</h1>
+      <p class="hero-subtitle">Discover music that matches your soul</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">50K+</div>
+          <div class="stat-label">Songs Analyzed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">10K+</div>
+          <div class="stat-label">Happy Users</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">95%</div>
+          <div class="stat-label">Accuracy Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input card -->
+    <div class="input-card">
+      <div class="input-header">
+        <h2>How are you feeling today?</h2>
+        <p>Share your thoughts and let AI create the perfect soundtrack for your mood</p>
+      </div>
+      
+      <div class="input-group">
+        <input 
+          id="moodInput" 
+          class="mood-input" 
+          type="text" 
+          placeholder="Tell us how you're feeling..."
+        />
+        <div class="input-suggestions">
+          <span class="suggestion-tag" onclick="setSuggestion('happy and energetic')">Happy & Energetic</span>
+          <span class="suggestion-tag" onclick="setSuggestion('calm and peaceful')">Calm & Peaceful</span>
+          <span class="suggestion-tag" onclick="setSuggestion('nostalgic and reflective')">Nostalgic</span>
+          <span class="suggestion-tag" onclick="setSuggestion('motivated to work')">Motivated</span>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button class="btn btn-primary" onclick="detectMood()">
+          <i class="fas fa-magic"></i>
+          Detect Mood
+        </button>
+        <button class="btn btn-secondary" onclick="startVoice()">
+          <i class="fas fa-microphone"></i>
+          Voice Input
+        </button>
+      </div>
+    </div>
+
+    <!-- Results will be displayed here -->
+    <div id="player"></div>
+
+    <!-- Features section -->
+    <div class="features-section">
+      <h2 class="section-title">Why Choose MoodTunes?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>AI-Powered Analysis</h3>
+          <p>Advanced machine learning algorithms analyze your text and emotions to understand your mood perfectly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-music"></i>
+          </div>
+          <h3>Curated Playlists</h3>
+          <p>Handpicked songs from millions of tracks, perfectly matched to your emotional state and preferences.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-microphone-alt"></i>
+          </div>
+          <h3>Voice Recognition</h3>
+          <p>Simply speak your thoughts and our voice recognition technology will capture your mood instantly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h3>Emotional Intelligence</h3>
+          <p>Understanding complex emotions and creating playlists that truly resonate with your inner feelings.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <h3>Real-time Processing</h3>
+          <p>Get your personalized playlist in seconds with our lightning-fast mood analysis technology.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-spotify"></i>
+          </div>
+          <h3>Spotify Integration</h3>
+          <p>Seamlessly connects with Spotify to deliver high-quality streaming directly to your device.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mood categories -->
+    <div class="mood-categories">
+      <h2 class="section-title">Popular Mood Categories</h2>
+      <div class="mood-grid">
+        <div class="mood-card" onclick="setMoodCategory('happy')">
+          <div class="mood-emoji">😊</div>
+          <h3>Happy</h3>
+          <p>Upbeat and joyful tracks</p>
+        </div>
+        <div class="mood-card" onclick="setMoodCategory('sad')">
+          <div class="mood-emoji">😢</div>
+          <h3>Melancholic</h3>
+          <p>Emotional and reflective songs</p>
+        </div>
+        <div class="mood-card" onclick="setMoodCategory('energetic')">
+          <div class="mood-emoji">⚡</div>
+          <h3>Energetic</h3>
+          <p>High-energy workout music</p>
+        </div>
+        <div class="mood-card" onclick="setMoodCategory('calm')">
+          <div class="mood-emoji">🧘</div>
+          <h3>Calm</h3>
+          <p>Peaceful and relaxing tunes</p>
+        </div>
+        <div class="mood-card" onclick="setMoodCategory('romantic')">
+          <div class="mood-emoji">💕</div>
+          <h3>Romantic</h3>
+          <p>Love songs and ballads</p>
+        </div>
+        <div class="mood-card" onclick="setMoodCategory('focused')">
+          <div class="mood-emoji">🎯</div>
+          <h3>Focused</h3>
+          <p>Concentration and study music</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <i class="fas fa-music"></i>
+          <span>MoodTunes</span>
+        </div>
+        <p>Creating the perfect soundtrack for every emotion. Discover music that truly understands you.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-spotify"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="discover.html">Discover</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Support</h3>
+        <ul>
+          <li><a href="help.html">Help Center</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Newsletter</h3>
+        <p>Stay updated with new features and music trends</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Enter your email">
+          <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 MoodTunes. All rights reserved. Made with ❤️ for music lovers.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
