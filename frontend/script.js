@@ -90,7 +90,7 @@ function detectMood() {
     showLoading();
 
     setTimeout(() => {
-        fetch('https://ai-spotify.onrender.com', {   // 👈 replace with your Render backend URL
+        fetch('https://ai-spotify.onrender.com/detectMood', {   // ✅ FIXED: now points to /detectMood
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text })
@@ -239,9 +239,6 @@ function setMoodCategory(category) {
         detectMood();
     }
 }
-
-// Login/Signup + Validation (your original code remains unchanged)
-// ... [KEEP all the login, signup, password validation, etc. from your script.js] ...
 
 // Playlist functions
 function savePlaylist(mood, playlistUrl) {
