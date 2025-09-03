@@ -1,7 +1,7 @@
 import os
 import requests
 
-HF_API_KEY = os.environ.get("HF_API_KEY")  # Set this in Cloud Run
+HF_API_KEY = os.environ.get("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")  # Set this in Cloud Run
 
 def detect_mood(text):
     if not HF_API_KEY:
@@ -24,3 +24,4 @@ def detect_mood(text):
         return "neutral"
     except Exception:
         return "neutral"
+
