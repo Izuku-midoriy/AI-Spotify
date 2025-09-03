@@ -9,7 +9,7 @@ SPOTIFY_CLIENT_SECRET = os.environ.get("SPOTIFY_CLIENT_SECRET")
 def get_spotify_token():
     """Fetch OAuth token from Spotify API."""
     if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET:
-        print("Spotify credentials not set in environment.")
+        print("❌ Spotify credentials not set in environment.")
         return None
 
     auth_str = f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}"
@@ -21,10 +21,13 @@ def get_spotify_token():
     try:
         res = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
         res.raise_for_status()
-        return res.json().get("access_token")
+        token = res.json().get("access_token")
+        print("✅ Spotify token fetched successfully")
+        return token
     except Exception as e:
-        print("Error fetching Spotify token:", e)
+        print("❌ Error fetching Spotify token:", e)
         return None
+
 
 def get_playlist(mood):
     """Search playlist by mood and return an EMBED URL for iframe."""
@@ -40,12 +43,16 @@ def get_playlist(mood):
         res = requests.get("https://api.spotify.com/v1/search", headers=headers, params=params)
         res.raise_for_status()
         playlists = res.json().get('playlists', {}).get('items', [])
+
         if playlists:
-            playlist_url = playlists[0]['external_urls']['spotify']  # normal URL
-            # Convert to embed format
-            return playlist_url.replace("open.spotify.com/playlist", "open.spotify.com/embed/playlist")
+            playlist_id = playlists[0]['id']  # ✅ safe way to get playlist
+            embed_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
+            print(f"🎵 Mood: {mood} → Playlist ID: {playlist_id} → Embed URL: {embed_url}")
+            return embed_url
+
+        print(f"⚠️ No playlist found for mood: {mood}")
     except Exception as e:
-        print("Error fetching playlist:", e)
+        print("❌ Error fetching playlist:", e)
 
     # fallback neutral playlist
     return "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0"
