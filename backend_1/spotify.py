@@ -1,8 +1,8 @@
 import os
 import requests
 
-SPOTIFY_CLIENT_ID = os.environ.get("SPOTIFY_CLIENT_ID")
-SPOTIFY_CLIENT_SECRET = os.environ.get("SPOTIFY_CLIENT_SECRET")
+SPOTIFY_CLIENT_ID = os.environ.get("6922ed1f01fc45b9936f304f240a92c5")
+SPOTIFY_CLIENT_SECRET = os.environ.get("379fc217e5714eb5af9e98a4d7143a42")
 
 def get_spotify_token():
     if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET:
@@ -32,3 +32,4 @@ def get_playlist(mood):
     if playlists:
         return playlists[0]['external_urls']['spotify']
     return "https://open.spotify.com"
+
