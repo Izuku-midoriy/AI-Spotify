@@ -1,11 +1,11 @@
 import os
 import requests
 
-HF_API_KEY = os.environ.get("HF_API_KEY")  # ✅ make sure this is set in Render
+HF_API_KEY = os.environ.get("HF_API_KEY")
 
 def detect_mood(text: str) -> str:
     if not HF_API_KEY:
-        print("⚠️ Hugging Face API key not found.")
+        print("❌ Hugging Face API key not found in environment!")
         return "neutral"
 
     headers = {"Authorization": f"Bearer {HF_API_KEY}"}
@@ -17,10 +17,10 @@ def detect_mood(text: str) -> str:
             headers=headers,
             json=payload
         )
+        print("🔍 Hugging Face raw response:", response.text)  # Debugging
         response.raise_for_status()
         result = response.json()
 
-        # Handle both possible formats
         if isinstance(result, list):
             if isinstance(result[0], list):
                 label = result[0][0]["label"]
@@ -29,7 +29,6 @@ def detect_mood(text: str) -> str:
         else:
             label = "NEUTRAL"
 
-        # Map Hugging Face labels to moods
         if label == "POSITIVE":
             return "happy"
         elif label == "NEGATIVE":
@@ -38,5 +37,5 @@ def detect_mood(text: str) -> str:
             return "neutral"
 
     except Exception as e:
-        print("Error in detect_mood:", e)
+        print("❌ Error in detect_mood:", e)
         return "neutral"
