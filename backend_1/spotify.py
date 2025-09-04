@@ -34,13 +34,13 @@ def get_playlist(mood: str) -> str:
     """
 
     # --- Static fallback playlists (guaranteed to work) ---
-    fallback_playlists = {
-        "happy": "https://open.spotify.com/embed/playlist/37i9dQZF1DXdPec7aLTmlC",
-        "sad": "https://open.spotify.com/embed/playlist/37i9dQZF1DWVV27DiNWxkR",
-        "calm": "https://open.spotify.com/embed/playlist/37i9dQZF1DWVFeEut75IAL",
-        "romantic": "https://open.spotify.com/embed/playlist/37i9dQZF1DX7KNKjOK0o75",
-        "neutral": "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0"
-    }
+   fallback_playlists = {
+    "happy": "https://open.spotify.com/embed/playlist/37i9dQZF1DX9XIFQuFvzM4",
+    "sad": "https://open.spotify.com/embed/playlist/37i9dQZF1DWSqBruwoIXkA",
+    "calm": "https://open.spotify.com/embed/playlist/37i9dQZF1DX3Ogo9pFvBkY",
+    "romantic": "https://open.spotify.com/embed/playlist/37i9dQZF1DX50QitC6Oqtn",
+    "neutral": "https://open.spotify.com/embed/playlist/37i9dQZF1DWZd79rJ6a7lp"
+}
 
     token = get_spotify_token()
     if not token:
@@ -63,3 +63,4 @@ def get_playlist(mood: str) -> str:
 
     # --- Always return a fallback if API fails ---
     return fallback_playlists.get(mood, fallback_playlists["neutral"])
+
