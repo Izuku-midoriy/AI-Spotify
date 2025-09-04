@@ -2,14 +2,12 @@ import os
 import requests
 import base64
 
-# Get credentials from environment variables (set these in Render Dashboard)
 SPOTIFY_CLIENT_ID = os.environ.get("SPOTIFY_CLIENT_ID")
 SPOTIFY_CLIENT_SECRET = os.environ.get("SPOTIFY_CLIENT_SECRET")
 
 def get_spotify_token():
-    """Fetch OAuth token from Spotify API."""
     if not SPOTIFY_CLIENT_ID or not SPOTIFY_CLIENT_SECRET:
-        print("❌ Spotify credentials not set in environment.")
+        print("❌ Spotify credentials not set.")
         return None
 
     auth_str = f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}"
@@ -21,20 +19,16 @@ def get_spotify_token():
     try:
         res = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
         res.raise_for_status()
-        token = res.json().get("access_token")
-        print("✅ Spotify token fetched successfully")
-        return token
+        return res.json().get("access_token")
     except Exception as e:
         print("❌ Error fetching Spotify token:", e)
         return None
 
 
 def get_playlist(mood):
-    """Search playlist by mood and return an EMBED URL for iframe."""
     token = get_spotify_token()
     if not token:
-        # fallback embed playlist
-        return "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0"
+        return "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0"  # fallback
 
     headers = {"Authorization": f"Bearer {token}"}
     params = {"q": mood, "type": "playlist", "limit": 1}
@@ -45,14 +39,9 @@ def get_playlist(mood):
         playlists = res.json().get('playlists', {}).get('items', [])
 
         if playlists:
-            playlist_id = playlists[0]['id']  # ✅ safe way to get playlist
-            embed_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
-            print(f"🎵 Mood: {mood} → Playlist ID: {playlist_id} → Embed URL: {embed_url}")
-            return embed_url
-
-        print(f"⚠️ No playlist found for mood: {mood}")
+            playlist_id = playlists[0]['id']
+            return f"https://open.spotify.com/embed/playlist/{playlist_id}"
     except Exception as e:
         print("❌ Error fetching playlist:", e)
 
-    # fallback neutral playlist
-    return "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0"
+    return "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0"  # fallback
