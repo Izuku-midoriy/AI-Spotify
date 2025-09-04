@@ -5,6 +5,7 @@ HF_API_KEY = os.environ.get("HF_API_KEY")
 
 def detect_mood(text):
     if not HF_API_KEY:
+        print("❌ Hugging Face key missing")
         return "neutral"
 
     headers = {"Authorization": f"Bearer {HF_API_KEY}"}
@@ -17,13 +18,14 @@ def detect_mood(text):
             json=payload,
             timeout=15
         )
+        print("🔍 Raw Hugging Face response:", response.text)  # 👈 Debug
+        response.raise_for_status()
         result = response.json()
 
-        # Response format may vary
         if isinstance(result, list):
             label = result[0][0]['label'] if isinstance(result[0], list) else result[0]['label']
         else:
-            label = "NEUTRAL"
+            return "neutral"
 
         if label == "POSITIVE":
             return "happy"
@@ -32,5 +34,5 @@ def detect_mood(text):
         return "neutral"
 
     except Exception as e:
-        print("❌ Error in detect_mood:", e, response.text)
+        print("❌ Error contacting Hugging Face:", e)
         return "neutral"
