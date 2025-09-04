@@ -3,9 +3,8 @@ import requests
 
 HF_API_KEY = os.environ.get("HF_API_KEY")
 
-def detect_mood(text: str) -> str:
+def detect_mood(text):
     if not HF_API_KEY:
-        print("❌ Hugging Face API key not found in environment!")
         return "neutral"
 
     headers = {"Authorization": f"Bearer {HF_API_KEY}"}
@@ -15,17 +14,14 @@ def detect_mood(text: str) -> str:
         response = requests.post(
             "https://api-inference.huggingface.co/models/distilbert-base-uncased-finetuned-sst-2-english",
             headers=headers,
-            json=payload
+            json=payload,
+            timeout=15
         )
-        print("🔍 Hugging Face raw response:", response.text)  # Debugging
-        response.raise_for_status()
         result = response.json()
 
+        # Response format may vary
         if isinstance(result, list):
-            if isinstance(result[0], list):
-                label = result[0][0]["label"]
-            else:
-                label = result[0]["label"]
+            label = result[0][0]['label'] if isinstance(result[0], list) else result[0]['label']
         else:
             label = "NEUTRAL"
 
@@ -33,9 +29,8 @@ def detect_mood(text: str) -> str:
             return "happy"
         elif label == "NEGATIVE":
             return "sad"
-        else:
-            return "neutral"
+        return "neutral"
 
     except Exception as e:
-        print("❌ Error in detect_mood:", e)
+        print("❌ Error in detect_mood:", e, response.text)
         return "neutral"
