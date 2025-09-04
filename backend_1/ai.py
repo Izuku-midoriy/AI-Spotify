@@ -13,7 +13,7 @@ def detect_mood(text):
 
     try:
         response = requests.post(
-            "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+            "https://router.huggingface.co/hf-inference/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english",
             headers=headers,
             json=payload,
             timeout=15
@@ -36,4 +36,5 @@ def detect_mood(text):
     except Exception as e:
         print("❌ Error contacting Hugging Face:", e)
         return "neutral"
+
 
