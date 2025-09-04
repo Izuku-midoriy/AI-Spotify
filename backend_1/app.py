@@ -10,7 +10,7 @@ CORS(app)
 def home():
     return "MoodTunes Flask Backend is Running!"
 
-@app.route('/detectMood', methods=['POST'])
+@app.route('/detect_mood', methods=['POST'])
 def detect_mood_route():
     data = request.get_json()
     text = data.get('text', '')
@@ -27,3 +27,4 @@ if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+
